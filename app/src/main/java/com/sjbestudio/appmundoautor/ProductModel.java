@@ -6,26 +6,25 @@ import java.util.ArrayList;
 
 public class ProductModel
 {
-    CarouselItem images;
+    ArrayList<CarouselItem> images = new ArrayList<>();
     int id;
     String nombre;
-    String stock;
     String disponibilidad;
+    String stock;
     float precio;
     float iva;
 
     public ProductModel() {}
 
-    public ProductModel(int id, String nombre, String stock, String disponibilidad, float precio, CarouselItem images, float iva)
+    public ProductModel(int id, String nombre, String disponibilidad, String stock, float precio, ArrayList<CarouselItem> images, float iva)
     {
         this.id = id;
         this.nombre = nombre;
-        this.stock = stock;
         this.disponibilidad = disponibilidad;
+        this.stock = stock;
         this.precio = precio;
         this.images = images;
         this.iva = iva;
-
     }
 
     //Getter
@@ -33,26 +32,24 @@ public class ProductModel
         return precio;
     }
 
-    public String getStock() {
-        return stock;
+    public String getDisponibilidad() {
+        return disponibilidad;
     }
 
-    public CarouselItem getImages() {
+    public ArrayList<CarouselItem> getImages() {
         return images;
     }
     public String getNombre() {
         return nombre;
     }
 
-    public String getDisponibilidad() {
-        return disponibilidad;
+    public String getStock() {
+        return stock;
     }
 
     public float getIva() { return iva; }
 
     public int getId() {return id;}
-
-    //Setter
 
     public void setDisponibilidad(String disponibilidad) {
         this.disponibilidad = disponibilidad;
@@ -70,10 +67,10 @@ public class ProductModel
         this.stock = stock;
     }
 
-    public void setImages(CarouselItem images) {
+    public void setImages(ArrayList<CarouselItem> images) {
         this.images = images;
     }
 
     public  void setIva(float iva) { this.iva = iva; }
-    public void setId(int id) {this.id = id; }
+    public void setId(int id) {this.id = id;}
 }

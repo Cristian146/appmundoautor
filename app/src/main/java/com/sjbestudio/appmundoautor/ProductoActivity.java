@@ -37,14 +37,12 @@ public class ProductoActivity extends AppCompatActivity
     private Button buttonBack;
 
     EditText nom;
-    EditText image;
-    EditText stock;
     EditText price;
-    EditText dispo;
-    EditText imagen;
+    EditText code;
+    EditText des;
+    EditText image;
 
     @Override
-
     protected void onCreate(Bundle saveInstanceState)
     {
         super.onCreate(saveInstanceState);
@@ -52,8 +50,8 @@ public class ProductoActivity extends AppCompatActivity
 
         nom = findViewById(R.id.nom);
         price = findViewById(R.id.price);
-        stock = findViewById(R.id.code);
-        dispo = findViewById(R.id.des);
+        code = findViewById(R.id.code);
+        des = findViewById(R.id.des);
         image = findViewById(R.id.image);
 
         buttonBack = findViewById(R.id.backButtonCreate);

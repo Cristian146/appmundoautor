@@ -16,23 +16,24 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.InputStream;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 public class MainActivity extends AppCompatActivity {
-
-    List<UserModel> userModelList = new ArrayList<>();
-
-    private EditText usuario;
-    private EditText contra;
-    private AlertDialog.Builder builder;
-    private Toast alerta;
-    private String mensaje;
-    private Button btnIniciar, btnCreate;
+    EditText usuario;
+    EditText Password;
+    Button getbutton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,97 +41,53 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // Usuario Register
-        userModelList.add(new UserModel("admin", "admin", "admin"));
-        userModelList.add(new UserModel("cliente", "cliente", "cliente"));
-        // Usuario Register End
+        usuario = (EditText) findViewById(R.id.idNombre);
+        Password = (EditText) findViewById(R.id.editTextTextPassword);
+        getbutton = (Button) findViewById(R.id.button);
 
-        usuario = findViewById(R.id.editTextTextPersonName);
-        contra = findViewById(R.id.editTextTextPassword);
-        btnIniciar = findViewById(R.id.button);
-        btnCreate = findViewById(R.id.btnCreate);
 
-        btnCreate.setOnClickListener(new View.OnClickListener() {
+        getbutton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), RegisterActivity.class);
-                startActivity(intent);
-            }
-        });
+            public void onClick(View view) {
 
-        btnIniciar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v)
-            {
-                if(usuario.length() == 0 || contra.length() == 0)
-                {
-                    mensaje = "Se requiere una contraseña y un usuario";
-                    alerta = Toast.makeText(getApplicationContext(), mensaje, Toast.LENGTH_SHORT);
-                    alerta.show();
+                ClassConnection connection = new ClassConnection();
+
+                try {
+                    String name = usuario.getText().toString();
+                    String password = Password.getText().toString();
+                    String url = "https://automundotulcan.000webhostapp.com/api/getRegis.php?name=" + name + "&password=" + password;
+                    String response = connection.execute(url).get();
+
+                    ObjectMapper obj = new ObjectMapper();
+                    UserModel user = obj.readValue(response, new TypeReference<UserModel>() {
+                    });
+                    if (user.getError()) {
+                        Toast.makeText(getApplicationContext(), "Datos Incorrectos", Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(getApplicationContext(), "Bienvenido " + user.getName(), Toast.LENGTH_SHORT).show();
+                        Intent miIntent = new Intent(MainActivity.this, HomeActivity.class);
+                        startActivity(miIntent);
+                    }
+
+
+                    //usuario.setText (usuarios);
+                    // Password.setText (contra);
+
+                } catch (Exception e) {
+                    System.out.println("Error: " + e);
                 }
-                else
-                {
-                    for(UserModel model : userModelList)
-                    {
-                        String usuarioGet = usuario.getText().toString();
-                        String passwordGet = contra.getText().toString();
+                //private void obtenerInfo(){
+                //  /String name = usuario.getText().toString();
+                // String password= Password.getText().toString();
 
-                        if(usuarioGet.isEmpty() || passwordGet.isEmpty())
-                        {
-                            mensaje = "Se requiere un usuario y una contraseña";
-                            alerta = Toast.makeText(getApplicationContext(), mensaje, Toast.LENGTH_SHORT);
-                            alerta.show();
-                        }
-                        else
-                        {
-                            Login(usuarioGet, passwordGet);
-                        }
-                    }
-                }
+                //  Toast.makeText(getApplicationContext(), "Nombre:"+name,Toast.LENGTH_SHORT).show();
+                // Toast.makeText(getApplicationContext(), "Contraseña:"+password,Toast.LENGTH_SHORT).show();
+
+
+                // }
             }
+
         });
-    }
-
-    void Login(String user, String pass)
-    {
-        String url = "https://mundoautosweb.000webhostapp.com/api/login.php?user="+user+"&pass="+pass;
-        RequestQueue que = Volley.newRequestQueue(this);
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest
-                (Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        try {
-                            String id = response.getString("id");
-                            String message = response.getString("message");
-
-                            Toast.makeText(getApplicationContext(),"Bienvenido", Toast.LENGTH_SHORT).show();
-
-                            if(message.equals("ok"))
-                            {
-                                Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
-                                intent.putExtra("id", id);
-                                startActivity(intent);
-                            }
-                            else
-                            {
-                                Toast.makeText(getApplicationContext(),"Usuario y/o contrasela incorrecta", Toast.LENGTH_SHORT).show();
-                            }
-
-                        }
-                        catch (JSONException ex)
-                        {
-                            Toast.makeText(getApplicationContext(),"Message" +  ex, Toast.LENGTH_SHORT).show();
-                        }
-
-                    }
-                }, new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        // TODO: Handle error
-                        Toast.makeText(getApplicationContext(),"Message" +  error, Toast.LENGTH_SHORT).show();
-                    }
-                });
-
-        que.add(jsonObjectRequest);
     }
 }
+

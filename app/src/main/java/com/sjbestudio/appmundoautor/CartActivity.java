@@ -52,7 +52,6 @@ public class CartActivity extends AppCompatActivity
     double envio = 1.50f;
 
     int finalIntent;
-    private Variables variables;
     private CartAdapter adapter;
 
     @Override
@@ -97,7 +96,7 @@ public class CartActivity extends AppCompatActivity
 
     private void RegisterCompra(String ids_cart)
     {
-        String url = variables.getAmbiente().concat("register_buy?ids=" + ids_cart);
+        String url =  "https://automundotulcan.000webhostapp.com/api/getRegis.php" + ids_cart;
 
         RequestQueue que = Volley.newRequestQueue(this);
 

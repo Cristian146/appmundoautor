@@ -91,15 +91,14 @@ public class HeaderAdapter extends RecyclerView.Adapter<HeaderAdapter.ViewHolder
             int id = productModels.get(pos).getId();
 
             viewHolder.nombreText.setText(productModels.get(pos).getNombre());
-            viewHolder.codigoText.setText(productModels.get(pos).getCodigo());
-            viewHolder.descripcionText.setText(productModels.get(pos).getDescripcion());
+            viewHolder.codigoText.setText(productModels.get(pos).getStock());
+            viewHolder.descripcionText.setText(productModels.get(pos).getDisponibilidad());
             viewHolder.precioText.setText(productModels.get(pos).getPrecio() + "");
             viewHolder.ivaText.setText(productModels.get(pos).getIva() + "");
-            viewHolder.imageCarousel.setData(productModels.get(pos).getImages());
-            viewHolder.stock.setText(productModels.get(pos).getCantidad() + "");
+            //viewHolder.imageCarousel.setData(productModels.get(pos).getImages());
 
             // Load Image
-            String cod = productModels.get(pos).getCodigo();
+            String cod = productModels.get(pos).getStock();
             final String[] cantidad = {""};
 
             int posti = pos;
@@ -145,7 +144,7 @@ public class HeaderAdapter extends RecyclerView.Adapter<HeaderAdapter.ViewHolder
 
     public void AddCart(String id, int id_prod, String cantidad)
     {
-        String url = "https://mundoautosweb.000webhostapp.com/api/add_cart.php?id="+id+"&id_prod="+id_prod+"&cant="+cantidad;
+        String url =  "https://automundotulcan.000webhostapp.com/api/getRegis.php?"+id+"&id_prod="+id_prod+"&cant="+cantidad;
         RequestQueue que = Volley.newRequestQueue(context);
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest
                 (Request.Method.GET, url, null, new Response.Listener<JSONObject>() {

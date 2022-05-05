@@ -2,15 +2,16 @@ package com.sjbestudio.appmundoautor;
 
 public class UserModel
 {
-    String usuario;
+    String name;
+    Boolean error;
     String password;
     String rol;
 
     public UserModel() {}
 
-    public UserModel(String usuario, String password, String rol)
+    public UserModel(String name, String password, String rol)
     {
-        this.usuario = usuario;
+        this.name = name;
         this.password = password;
         this.rol = rol;
     }
@@ -19,8 +20,8 @@ public class UserModel
         return rol;
     }
 
-    public String getUsuario() {
-        return usuario;
+    public String getName() {
+        return name;
     }
 
     public String getPassword() {
@@ -31,11 +32,18 @@ public class UserModel
         this.rol = rol;
     }
 
-    public void setUsuario(String usuario) {
-        this.usuario = usuario;
+    public void setName(String usuario) {
+        this.name = usuario;
     }
 
     public void setPassword(String password) {
         this.password = password;
+    }
+    public Boolean getError() {
+        return error;
+    }
+
+    public void setError(Boolean error) {
+        this.error = error;
     }
 }

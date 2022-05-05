@@ -23,7 +23,6 @@ public class RegisterActivity extends AppCompatActivity
 {
     private EditText user, pass, email, direction;
     private Button register, backLogin;
-    private Variables variables;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,7 +64,7 @@ public class RegisterActivity extends AppCompatActivity
 
     void Register(String user, String pass, String dir, String email)
     {
-        String url =  variables.getAmbiente().concat("getRegis.php?user="+user+"&pass="+pass+"&email="+email+"&dir="+dir);
+        String url = "https://mundoautosweb.000webhostapp.com/api/registro?user="+user+"&pass="+pass+"&email="+email+"&dir="+dir;
         RequestQueue que = Volley.newRequestQueue(this);
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest

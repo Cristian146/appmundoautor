@@ -1,7 +1,6 @@
 package com.sjbestudio.appmundoautor;
 
 import android.content.Context;
-import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,7 +26,7 @@ import java.util.ArrayList;
 
 public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder>
 {
-    private Variables variables;
+
     private ArrayList<ProductModel> productModels;
     public ArrayList<String> productCart = new ArrayList<String>();
     Context context;
@@ -36,8 +35,8 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder>
         Button buttonDelete;
         TextView ivaText;
         TextView nombreText;
-        TextView codigoText;
-        TextView descripcionText;
+        TextView StockText;
+        TextView DisponibilidadText;
         TextView precioText, cantidadID;
         ConstraintLayout layout;
         ImageCarousel imageCarousel;
@@ -46,8 +45,8 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder>
         {
             super(view);
             nombreText = view.findViewById(R.id.idNombre);
-            codigoText = view.findViewById(R.id.idCodigo);
-            descripcionText = view.findViewById(R.id.idDescripcion);
+            StockText = view.findViewById(R.id.idStock);
+            DisponibilidadText = view.findViewById(R.id.idDisponibilidad);
             precioText = view.findViewById(R.id.precioID);
             ivaText = view.findViewById(R.id.textIva);
             imageCarousel = view.findViewById(R.id.carousel);
@@ -74,8 +73,8 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder>
     public void onBindViewHolder(CartAdapter.ViewHolder viewHolder, final int pos) {
 
         viewHolder.nombreText.setText(productModels.get(pos).getNombre());
-        viewHolder.codigoText.setText(productModels.get(pos).getStock());
-        viewHolder.descripcionText.setText(productModels.get(pos).getDisponibilidad());
+        viewHolder.StockText.setText(productModels.get(pos).getStock());
+        viewHolder.DisponibilidadText.setText(productModels.get(pos).getDisponibilidad());
         viewHolder.precioText.setText(productModels.get(pos).getPrecio() + "");
         //viewHolder.ivaText.setText(productModels.get(pos).getIva());
 
@@ -102,7 +101,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder>
 
     void DeleteCart(int id)
     {
-        String url =  variables.getAmbiente().concat("delete_product.php?id=" + id);
+        String url =   "https://automundotulcan.000webhostapp.com/api/getRegis.php" + id;
         RequestQueue que = Volley.newRequestQueue(context);
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest
                 (Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
