@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_buy"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/textView29"
+        android:layout_width="127dp"
+        android:layout_height="25dp"
+        android:layout_marginStart="266dp"
+        android:layout_marginTop="588dp"
+        android:layout_marginEnd="18dp"
+        android:layout_marginBottom="118dp"
+        android:text="Efectivo"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textView28"
+        android:layout_width="212dp"
+        android:layout_height="26dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="589dp"
+        android:layout_marginEnd="179dp"
+        android:layout_marginBottom="116dp"
+        android:text="METODO DE PAGO:"
+        android:textColor="#000000"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textView24"
+        android:layout_width="213dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="99dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="99dp"
+        android:layout_marginBottom="676dp"
+        android:text="Finalizar Compra"
+        android:textAlignment="center"
+        android:textColor="#000000"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/backButtonBuy"
+        android:layout_width="57dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="338dp"
+        android:layout_marginBottom="675dp"
+        app:icon="?attr/actionModeCloseDrawable"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/button4"
+        android:layout_width="381dp"
+        android:layout_height="52dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="660dp"
+        android:layout_marginEnd="14dp"
+        android:text="Finalizar Compra"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textView31"
+        android:layout_width="376dp"
+        android:layout_height="34dp"
+        android:layout_marginStart="18dp"
+        android:layout_marginTop="99dp"
+        android:layout_marginEnd="17dp"
+        android:layout_marginBottom="598dp"
+        android:text="El pedido llegara dependiendo de tu ubicacion, 15 MINUTOS es el minimo."
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textView32"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="18dp"
+        android:layout_marginTop="164dp"
+        android:layout_marginEnd="319dp"
+        android:layout_marginBottom="548dp"
+        android:text="UBICACION"
+        android:textColor="#000000"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/editTextTextPersonName3"
+        android:layout_width="370dp"
+        android:layout_height="51dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="203dp"
+        android:layout_marginEnd="21dp"
+        android:layout_marginBottom="477dp"
+        android:ems="10"
+        android:inputType="textPersonName"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
