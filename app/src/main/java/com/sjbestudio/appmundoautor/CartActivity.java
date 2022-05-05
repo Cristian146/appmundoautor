@@ -21,13 +21,21 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import org.imaginativeworld.whynotimagecarousel.model.CarouselItem;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.List;
 
 public class CartActivity extends AppCompatActivity
 {
@@ -89,7 +97,7 @@ public class CartActivity extends AppCompatActivity
 
     private void RegisterCompra(String ids_cart)
     {
-        String url = variables.ambiente.concat("register_buy?ids=" + ids_cart);
+        String url = variables.getAmbiente().concat("register_buy?ids=" + ids_cart);
 
         RequestQueue que = Volley.newRequestQueue(this);
 
@@ -161,10 +169,9 @@ public class CartActivity extends AppCompatActivity
             public void onResponse(JSONArray response) {
 
                 int id;
-                String nombre, descripcion, codigo;
+                String nombre, disponibilidad, stock;
                 double precio;
                 double iva;
-                int cantidad;
 
                 for (int i = 0; i < response.length(); i++)
                 {
@@ -172,19 +179,6 @@ public class CartActivity extends AppCompatActivity
                     try {
                         JSONObject jsonObject = response.getJSONObject(i);
 
-                        id = jsonObject.getInt("id_cart_prod");
-                        nombre = jsonObject.getString("nombre");
-                        descripcion = jsonObject.getString("descp");
-                        codigo = jsonObject.getString("codigo");
-                        precio = jsonObject.getDouble("precio");
-                        iva = jsonObject.getDouble("iva");
-                        cantidad = jsonObject.getInt("cantidad");
-
-                        items.add(new CarouselItem(jsonObject.getString("imagen"), ""));
-                        items.add(new CarouselItem(jsonObject.getString("imagen2"), ""));
-                        items.add(new CarouselItem(jsonObject.getString("imagen3"), ""));
-
-                        productModels.add(new ProductModel(id, nombre, descripcion, codigo, (float) precio, items, (float)iva, cantidad));
 
                     } catch (JSONException e) {
                         Toast.makeText(getApplicationContext(),"Error" + e, Toast.LENGTH_SHORT).show();
@@ -198,7 +192,6 @@ public class CartActivity extends AppCompatActivity
 
 
                     priceSub[1] = priceSub[1] + productModels.get(j).getPrecio();
-                    priceSub[1] = priceSub[1] * productModels.get(j).getCantidad();
 
                     priceSub[0] = priceSub[0] + priceSub[1];
 
@@ -228,5 +221,37 @@ public class CartActivity extends AppCompatActivity
             }
         });
         que.add(jsonArrayRequest);
+    }
+    public List<ProductModel> getProductos(String url) {
+        String respuesta = "";
+        try {
+            respuesta = peticionHttp(url, "GET");
+            System.out.println("La respuesta es:\n" + respuesta);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        ObjectMapper m = new ObjectMapper();
+        List<ProductModel> products = new ArrayList<>();
+        try{
+             products = m.readValue(respuesta, new TypeReference<ProductModel>() {});
+            System.out.println("Datos: " + products);
+        }catch (Exception e){
+            System.out.println("e: " + e);
+        }
+        return products;
+    }
+
+    public  String peticionHttp(String urls, String method) throws Exception {
+        StringBuilder resultado = new StringBuilder();
+        URL url = new URL(urls);
+        HttpURLConnection conexion = (HttpURLConnection) url.openConnection();
+        conexion.setRequestMethod(method);
+        BufferedReader rd = new BufferedReader(new InputStreamReader(conexion.getInputStream()));
+        String linea;
+        while ((linea = rd.readLine()) != null) {
+            resultado.append(linea);
+        }
+        rd.close();
+        return resultado.toString();
     }
 }

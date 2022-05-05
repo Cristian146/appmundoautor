@@ -27,6 +27,7 @@ import java.util.ArrayList;
 
 public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder>
 {
+    private Variables variables;
     private ArrayList<ProductModel> productModels;
     public ArrayList<String> productCart = new ArrayList<String>();
     Context context;
@@ -73,11 +74,11 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder>
     public void onBindViewHolder(CartAdapter.ViewHolder viewHolder, final int pos) {
 
         viewHolder.nombreText.setText(productModels.get(pos).getNombre());
-        viewHolder.codigoText.setText(productModels.get(pos).getCodigo());
-        viewHolder.descripcionText.setText(productModels.get(pos).getDescripcion());
+        viewHolder.codigoText.setText(productModels.get(pos).getStock());
+        viewHolder.descripcionText.setText(productModels.get(pos).getDisponibilidad());
         viewHolder.precioText.setText(productModels.get(pos).getPrecio() + "");
         //viewHolder.ivaText.setText(productModels.get(pos).getIva());
-        viewHolder.imageCarousel.setData(productModels.get(pos).getImages());
+
 
         int id = productModels.get(pos).getId();
 
@@ -101,7 +102,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder>
 
     void DeleteCart(int id)
     {
-        String url = "https://mundoautosweb.000webhostapp.com/api/delete_product.php?id=" + id;
+        String url =  variables.getAmbiente().concat("delete_product.php?id=" + id);
         RequestQueue que = Volley.newRequestQueue(context);
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest
                 (Request.Method.GET, url, null, new Response.Listener<JSONObject>() {

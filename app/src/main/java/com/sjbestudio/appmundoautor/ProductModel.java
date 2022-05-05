@@ -6,27 +6,26 @@ import java.util.ArrayList;
 
 public class ProductModel
 {
-    ArrayList<CarouselItem> images = new ArrayList<>();
+    CarouselItem images;
     int id;
     String nombre;
-    String descripcion;
-    String codigo;
+    String stock;
+    String disponibilidad;
     float precio;
     float iva;
-    int cantidad;
 
     public ProductModel() {}
 
-    public ProductModel(int id, String nombre, String descripcion, String codigo, float precio, ArrayList<CarouselItem> images, float iva, int cantidad)
+    public ProductModel(int id, String nombre, String stock, String disponibilidad, float precio, CarouselItem images, float iva)
     {
         this.id = id;
         this.nombre = nombre;
-        this.descripcion = descripcion;
-        this.codigo = codigo;
+        this.stock = stock;
+        this.disponibilidad = disponibilidad;
         this.precio = precio;
         this.images = images;
         this.iva = iva;
-        this.cantidad = cantidad;
+
     }
 
     //Getter
@@ -34,30 +33,29 @@ public class ProductModel
         return precio;
     }
 
-    public String getDescripcion() {
-        return descripcion;
+    public String getStock() {
+        return stock;
     }
 
-    public ArrayList<CarouselItem> getImages() {
+    public CarouselItem getImages() {
         return images;
     }
     public String getNombre() {
         return nombre;
     }
 
-    public String getCodigo() {
-        return codigo;
+    public String getDisponibilidad() {
+        return disponibilidad;
     }
 
     public float getIva() { return iva; }
 
     public int getId() {return id;}
 
-    public int getCantidad() { return cantidad; }
     //Setter
 
-    public void setDescripcion(String descripcion) {
-        this.descripcion = descripcion;
+    public void setDisponibilidad(String disponibilidad) {
+        this.disponibilidad = disponibilidad;
     }
 
     public void setNombre(String nombre) {
@@ -68,15 +66,14 @@ public class ProductModel
         this.precio = precio;
     }
 
-    public void setCodigo(String codigo) {
-        this.codigo = codigo;
+    public void setStock(String stock) {
+        this.stock = stock;
     }
 
-    public void setImages(ArrayList<CarouselItem> images) {
+    public void setImages(CarouselItem images) {
         this.images = images;
     }
 
     public  void setIva(float iva) { this.iva = iva; }
     public void setId(int id) {this.id = id; }
-    public void setCantidad(int cantidad) { this.cantidad = cantidad; }
 }

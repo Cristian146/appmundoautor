@@ -33,6 +33,8 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.BaseTransientBottomBar;
 import com.google.android.material.snackbar.Snackbar;
@@ -49,11 +51,14 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.List;
 
 public class HomeActivity  extends AppCompatActivity implements AdapterView.OnItemClickListener
 {
+    private Variables variables;
     ArrayList<String> categories = new ArrayList<String>();
     public ArrayList<String> productCart = new ArrayList<String>();
     public ArrayList<String> getCart;
@@ -135,7 +140,7 @@ public class HomeActivity  extends AppCompatActivity implements AdapterView.OnIt
         spinner = findViewById(R.id.spinner);
 
         // Load Categories from WEB API
-        String url = "http://localhost/abakend/api/getProducts.php";
+        String url =  variables.getAmbiente().concat("getCategorias.php");
 
         RequestQueue quees = Volley.newRequestQueue(this);
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(url, new Response.Listener<JSONArray>() {
@@ -144,12 +149,13 @@ public class HomeActivity  extends AppCompatActivity implements AdapterView.OnIt
 
                 String nombre;
 
+
                 for (int i = 0; i < response.length(); i++)
                 {
                     try {
                         JSONObject jsonObject = response.getJSONObject(i);
 
-                        nombre = jsonObject.getString("categorie");
+                        nombre = jsonObject.getString("categori");
 
                         categories.add(nombre);
 
@@ -208,53 +214,16 @@ public class HomeActivity  extends AppCompatActivity implements AdapterView.OnIt
 
         ArrayList<ProductModel> productModels = new ArrayList<>();
 
-        String url = "https://mundoautosweb.000webhostapp.com/api/productos.php?filter=" + search;
+        String url =  variables.getAmbiente().concat("getProducts.php?filter=" + search);
+        System.out.println("valor de url: " + url);
+        List<ProductModel> productModel = this.getProductos(url);
 
-        RequestQueue que = Volley.newRequestQueue(this);
-        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(url, new Response.Listener<JSONArray>() {
-            @Override
-            public void onResponse(JSONArray response) {
-                int id;
-                String nombre, descripcion, codigo;
-                double precio;
-                double iva;
-
-                for (int i = 0; i < response.length(); i++)
-                {
-                    ArrayList<CarouselItem> items = new ArrayList<>();
-                    try {
-                        JSONObject jsonObject = response.getJSONObject(i);
-
-                        id = jsonObject.getInt("id_prod");
-                        nombre = jsonObject.getString("nombre");
-                        descripcion = jsonObject.getString("descp");
-                        codigo = jsonObject.getString("codigo");
-                        precio = jsonObject.getDouble("precio");
-                        iva = jsonObject.getDouble("iva");
-
-                        items.add(new CarouselItem(jsonObject.getString("imagen"), ""));
-                        items.add(new CarouselItem(jsonObject.getString("imagen2"), ""));
-                        items.add(new CarouselItem(jsonObject.getString("imagen3"), ""));
-
-                        productModels.add(new ProductModel(id, nombre, descripcion, codigo, (float) precio, items, (float)iva, 0));
-
-                    } catch (JSONException e) {
-                        Toast.makeText(getApplicationContext(),"No se encontro productos con esa categoria", Toast.LENGTH_SHORT).show();
-                    }
-                }
-                adapter = new HeaderAdapter(productModels, getIntent().getExtras().getString("id"));
-                recyclerView.setAdapter(adapter);
-
-                productCart = adapter.productCart;
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Toast.makeText(getApplicationContext(),"No se encontro productos con esa categoria", Toast.LENGTH_SHORT).show();
-            }
-        });
-
-        que.add(jsonArrayRequest);
+        for (ProductModel producto : productModel) {
+            productModels.add(new ProductModel(producto.getId(), producto.getNombre(), producto.getDisponibilidad(), producto.getStock(), producto.getPrecio(), producto.getImages(), producto.getIva()));
+            adapter = new HeaderAdapter(productModels, getIntent().getExtras().getString("id"));
+            recyclerView.setAdapter(adapter);
+            productCart = adapter.productCart;
+        }
     }
 
     private void LoadProducts(String search)
@@ -279,55 +248,49 @@ public class HomeActivity  extends AppCompatActivity implements AdapterView.OnIt
 
         ArrayList<ProductModel> productModels = new ArrayList<>();
 
-        String url = "https://mundoautosweb.000webhostapp.com/api/productos?sect=" + search;
+        String url = variables.getAmbiente().concat("getProducts.php");
+        System.out.println("valor de url: " + url);
+        List<ProductModel> productModel = this.getProductos(url);
 
-        RequestQueue que = Volley.newRequestQueue(this);
-        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(url, new Response.Listener<JSONArray>() {
-            @Override
-            public void onResponse(JSONArray response) {
-
-                int id;
-                String nombre, descripcion, codigo;
-                double precio;
-                double iva;
-                int stock;
-
-                for (int i = 0; i < response.length(); i++)
-                {
-                    ArrayList<CarouselItem> items = new ArrayList<>();
-                    try {
-                        JSONObject jsonObject = response.getJSONObject(i);
-
-                        id = jsonObject.getInt("id_prod");
-                        nombre = jsonObject.getString("nombre");
-                        descripcion = jsonObject.getString("descp");
-                        codigo = jsonObject.getString("codigo");
-                        precio = jsonObject.getDouble("precio");
-                        iva = jsonObject.getDouble("iva");
-                        stock = jsonObject.getInt("stock");
-
-                        items.add(new CarouselItem(jsonObject.getString("imagen"), ""));
-                        items.add(new CarouselItem(jsonObject.getString("imagen2"), ""));
-                        items.add(new CarouselItem(jsonObject.getString("imagen3"), ""));
-
-                        productModels.add(new ProductModel(id, nombre, descripcion, codigo, (float) precio, items, (float)iva, stock));
-
-                    } catch (JSONException e) {
-                        Toast.makeText(getApplicationContext(),"No se encontro productos con esa categoria", Toast.LENGTH_SHORT).show();
-                    }
-                }
+        for (ProductModel producto : productModel) {
+                productModels.add(new ProductModel(producto.getId(), producto.getNombre(), producto.getDisponibilidad(), producto.getStock(), producto.getPrecio(), producto.getImages(), producto.getIva()));
                 adapter = new HeaderAdapter(productModels, getIntent().getExtras().getString("id"));
                 recyclerView.setAdapter(adapter);
-
                 productCart = adapter.productCart;
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Toast.makeText(getApplicationContext(),"No se encontro productos con esa categoria", Toast.LENGTH_SHORT).show();
-            }
-        });
+        }
+    }
+    public List<ProductModel> getProductos(String url) {
+//        String url = "http://localhost/abakend/api/getUsu.php";
+        String respuesta = "";
+        try {
+            respuesta = peticionHttp(url, "GET");
+            System.out.println("La respuesta es:\n" + respuesta);
+        } catch (Exception e) {
+            // Manejar excepción
+            e.printStackTrace();
+        }
+        ObjectMapper m = new ObjectMapper();
+        List<ProductModel> products = new ArrayList<>();
+        try{
+            products = m.readValue(respuesta, new TypeReference<ProductModel>() {});
+            System.out.println("Datos: " + products);
+        }catch (Exception e){
+            System.out.println("e: " + e);
+        }
+        return products;
+    }
 
-        que.add(jsonArrayRequest);
+    public  String peticionHttp(String urls, String method) throws Exception {
+        StringBuilder resultado = new StringBuilder();
+        URL url = new URL(urls);
+        HttpURLConnection conexion = (HttpURLConnection) url.openConnection();
+        conexion.setRequestMethod(method);
+        BufferedReader rd = new BufferedReader(new InputStreamReader(conexion.getInputStream()));
+        String linea;
+        while ((linea = rd.readLine()) != null) {
+            resultado.append(linea);
+        }
+        rd.close();
+        return resultado.toString();
     }
 }

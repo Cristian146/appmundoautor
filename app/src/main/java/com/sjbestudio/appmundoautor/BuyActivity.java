@@ -20,6 +20,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 public class BuyActivity extends AppCompatActivity {
+    private Variables variables;
 
     Button backPage;
     Button finalizar;
@@ -56,7 +57,7 @@ public class BuyActivity extends AppCompatActivity {
 
     void DeleteCart()
     {
-        String url = "https://mundoautosweb.000webhostapp.com/api/cart_delete.php?id=" + getIntent().getExtras().getString("id");
+        String url =  variables.getAmbiente().concat("cart_delete.php?id=" + getIntent().getExtras().getString("id"));
         RequestQueue que = Volley.newRequestQueue(this);
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest
                 (Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
