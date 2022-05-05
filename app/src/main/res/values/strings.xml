@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">appmundoautor</string>
+    <string name="message_home">En AutoMundo encontraras las partes que necesitas para tu automovil</string>
+    <string name="categorias">Categorias</string>
+</resources>
