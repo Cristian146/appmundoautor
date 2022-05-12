@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 
+import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -34,14 +35,11 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class HomeActivity  extends AppCompatActivity {
+    private ListView listview;
+    private ArrayList<String> names;
 
-    private RecyclerView mRvListaProductos;
-
-    private HeaderAdapter headerAdapter;
     private Spinner categorias;
     private Spinner subcategoria;
-    private RecyclerView productos;
-    RecyclerView recyclerView;
     Spinner spinner;
     Spinner spinner2;
     ArrayList<String> arrayListCategorias;
@@ -57,33 +55,30 @@ public class HomeActivity  extends AppCompatActivity {
         setContentView(R.layout.activity_home);
         spinner = (Spinner) findViewById(R.id.spinner);
         spinner2 = (Spinner) findViewById(R.id.spinner2);
+        listview = (ListView) findViewById(R.id.listview);
+        names = new ArrayList<String>();
+        names.add("Veracruz");
+        names.add("Tabasco");
+        names.add("Chiapas");
+        names.add("Campeche");
+        names.add("Tabasco");
+        names.add("Chiapas");
+        names.add("Campeche");
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, names);
+        listview.setAdapter(adapter);
+
 
 
         String[] datos = getCategorias();
         ArrayAdapter<String> adapters= new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, datos);
         spinner.setAdapter(adapters);
-        mRvListaProductos = findViewById(R.id.reciclerView);
 
-        mRvListaProductos.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
-
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
-        mRvListaProductos.setLayoutManager(linearLayoutManager);
-
-
-
-        ArrayList<Header> myDataset= new ArrayList<>();
-        myDataset.add(new Header("juan", "1"));
-        myDataset.add(new Header("oma", "1"));
-        myDataset.add(new Header("oscar", "1"));
-
-        headerAdapter = new HeaderAdapter(myDataset);
-//        recyclerView.setAdapter(headerAdapter);
 
 
         Spinner spnLocale = (Spinner)findViewById(R.id.spinner);
         spnLocale.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                //ArrayAdapter<String> adapters = (ArrayAdapter<String>) spinner.getAdapter();
                 getSubCategorias(datos[i]);
                 } public void onNothingSelected(AdapterView<?> adapterView) { return; } });
     }

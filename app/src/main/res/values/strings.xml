@@ -4,4 +4,5 @@
     <string name="categorias">Categorias</string>
     <string name="subcategorias">SubCategorias</string>
     <string name="productos">Productos</string>
+    <string name="element_text" />
 </resources>
