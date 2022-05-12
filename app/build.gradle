@@ -44,9 +44,13 @@ dependencies {
     implementation 'com.fasterxml.jackson.core:jackson-core:2.8.5'
     implementation 'com.fasterxml.jackson.core:jackson-annotations:2.8.5'
 
+    //classpath 'com.android.tools.build:gradle:3.2.1'
 
     // Circle Indicator (To fix the xml preview "Missing classes" error)
     implementation 'me.relex:circleindicator:2.1.6'
 
     implementation 'org.imaginativeworld.whynotimagecarousel:whynotimagecarousel:2.1.0'
+//    implementation "androidx.recyclerview:recyclerview:1.2.1"
+//    implementation "androidx.recyclerview:recyclerview-selection:1.1.0"
+
 }

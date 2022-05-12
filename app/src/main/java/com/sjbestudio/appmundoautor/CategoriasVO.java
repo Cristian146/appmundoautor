@@ -9,4 +9,7 @@ public class CategoriasVO {
     public String subtitle;
     public String image;
     public String status;
+    public Integer category_id;
+    public String slug;
+
 }
